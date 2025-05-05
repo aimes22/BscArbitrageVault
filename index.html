@@ -3,17 +3,16 @@
 <head>
   <title>BSC Auto Rebalance Vault</title>
 </head>
-<body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+<body>
   <h1>🚀 BSC Auto Rebalance Vault</h1>
-  <p>Earn passive profits from arbitrage between PancakeSwap and BakerySwap.</p>
+  <p>Earn daily profit from automated arbitrage on PancakeSwap & ApeSwap.</p>
+  
+  <button id="connectBtn">Connect Wallet</button>
+  <button id="depositBtn">Deposit 0.1 BNB</button>
 
-  <button onclick="connectWallet()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">🔗 Connect Wallet</button>
-  <button onclick="depositBNB()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">💸 Deposit BNB</button>
-
-  <p style="margin-top: 30px; font-style: italic;">Your wallet stays in control. Profits are auto-compounded daily.</p>
-
-  <!-- Load Ethers.js and your script -->
+  <!-- Load ethers.js -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <!-- Load your logic -->
   <script src="script.js"></script>
 </body>
 </html>
